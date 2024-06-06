@@ -1,26 +1,27 @@
 #!/usr/bin/env python3
 """
-template for all authentication systems
+Module for authentication
 """
+
+
+from typing import List, TypeVar
 from flask import request
-from flask import jsonify
-from typing import TypeVar, List
+import os
 
 
 class Auth:
-    """
-    Authentication class
+    """_summary_
     """
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """_summary_
 
         Args:
-                path (str): _description_
-                excluded_paths (List[str]): _description_
+            path (str): _description_
+            excluded_paths (List[str]): _description_
 
         Returns:
-                bool: _description_
+                        bool: _description_
         """
         if path is None:
             return True
@@ -43,18 +44,37 @@ class Auth:
         return True
 
     def authorization_header(self, request=None) -> str:
-        """
-        Authorization header
+        """_summary_
+
+        Args:
+            request (_type_, optional): _description_. Defaults to None.
+
+        Returns:
+                        str: _description_
         """
         if request is None:
             return None
-        header = request.headers.get("Authorization")
+        # get header from the request
+        header = request.headers.get('Authorization')
+
         if header is None:
             return None
+
         return header
 
-    def current_user(self, request=None) -> TypeVar("User"):
+    def current_user(self, request=None) -> TypeVar('User'):
+        """_summary_
         """
-        Current user
-        """
+
         return None
+
+    def session_cookie(self, request=None):
+        """_summary_
+
+        Args:
+            request (_type_, optional): _description_. Defaults to None.
+        """
+        if request is None:
+            return None
+        session_name = os.getenv('SESSION_NAME')
+        return request.cookies.get(session_name)
