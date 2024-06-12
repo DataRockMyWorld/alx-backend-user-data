@@ -6,6 +6,7 @@ from db import DB
 import bcrypt
 from user import User
 
+
 def _hash_password(password: str) -> bytes:
     """
     Hash a password"""
@@ -17,17 +18,16 @@ class Auth:
     """
 
     def __init__(self):
+        """Initialize a new Auth instance"""
         self._db = DB()
-        
+
     def register_user(email: str, password: str) -> User:
         """
         Register a new user
         """
-       try:
-           self._db.find_user_by(email=email)
-       except NoResultFound::
-           return self._db.add_user(email, _hash_password(password))
-       
-       else:
-           raise ValueError("User {} already exists".format(email))
- 
+        try:
+            self._db.find_user_by(email=email)
+        except NoResultFound:
+            return self._db.add_user(email, _hash_password(password))
+        else:
+            raise ValueError("User {} already exists".format(email))
