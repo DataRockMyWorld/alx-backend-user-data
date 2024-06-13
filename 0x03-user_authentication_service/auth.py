@@ -17,8 +17,7 @@ def _hash_password(password: str) -> bytes:
 
 
 class Auth:
-    """Auth class to interact with the authentication database.
-    """
+    """Auth class to interact with the authentication database."""
 
     def __init__(self):
         """Initialize a new Auth instance"""
@@ -34,7 +33,7 @@ class Auth:
         except NoResultFound:
             user = self._db.add_user(email, _hash_password(password))
             return user
-        
+
     def valid_login(self, email: str, password: str) -> bool:
         """
         Validate user login
@@ -43,14 +42,14 @@ class Auth:
             user = self._db.find_user_by(email=email)
         except NoResultFound:
             return False
-        return bcrypt.checkpw(password.encode('utf-8'), user.hashed_password)
-    
+        return bcrypt.checkpw(password.encode("utf-8"), user.hashed_password)
+
     def _generate_uuid(self) -> str:
         """
         Generate a new UUID
         """
         return str(uuid4())
-    
+
     def create_session(self, email: str) -> str:
         """
         Create a new session
@@ -62,8 +61,3 @@ class Auth:
         session_id = self._generate_uuid()
         self._db.update_user(user.id, session_id=session_id)
         return session_id
-    
-
-
-        
-

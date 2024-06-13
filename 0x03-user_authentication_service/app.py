@@ -29,17 +29,17 @@ def register_user() -> str:
         return jsonify(message), 201
     except ValueError:
         return jsonify({"message": "Email already registered"}), 400
-    
 
-@app.route('/sessions', methods=['POST'])
+
+@app.route("/sessions", methods=["POST"])
 def login() -> str:
     """_summary_
 
     Returns:
         str: _description_
     """
-    email = request.form.get('email')
-    password = request.form.get('password')
+    email = request.form.get("email")
+    password = request.form.get("password")
 
     if not (AUTH.valid_login(email, password)):
         abort(401)
@@ -47,7 +47,7 @@ def login() -> str:
         # create a new session
         session_id = AUTH.create_session(email)
         response = jsonify({"email": email, "message": "logged in"})
-        response.set_cookie('session_id', session_id)
+        response.set_cookie("session_id", session_id)
 
     return response
 
